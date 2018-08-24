@@ -1,0 +1,18 @@
+{
+  "keywords": ["kw1", "kw2"],
+  "reservoirSize": 100,
+  "tweetsReservoir": [
+    {
+      "index": 0,
+      "text": "This is a sample tweet"
+    },
+    {
+      "index": 1,
+      "text": "This is another sample tweet"
+    }
+  ],
+  "averageLength": 25,
+  "topHashTags": ["hashtag1", "hashtag2"],
+  "fetchingTweets": true,
+  "appErrors": []
+}
