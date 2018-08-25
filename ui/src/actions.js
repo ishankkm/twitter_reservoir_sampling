@@ -30,11 +30,6 @@ export const setTopHashtags = hashtags => ({
   payload: hashtags
 })
 
-export const setTopHashtags = hashtags => ({
-  type: C.SET_TOP_HASHTAGS,
-  payload: hashtags
-})
-
 export const fetchTweets = () => ({
   type: C.FETCH_TWEETS,
   payload: null
