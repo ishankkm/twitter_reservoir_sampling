@@ -16,19 +16,23 @@ class StreamListener(tweepy.StreamListener):
     def get_hashtags(self, text):
         hashtags = []
         splitArray = text.split()
-        for item in splitArray:
-            if item[0] == '#':
-                cand = ''.join(e for e in item.strip() if e.isalnum())
-                if len(cand) > 0:
-                    hashtags.append(cand)
+        for item in splitArray:  
+            try:
+                item_dec = item.decode('utf-8')
+                if item_dec[0] == '#':
+                    cand = ''.join(e for e in item_dec.strip() if e.isalnum())
+                    if len(cand) > 0:
+                        hashtags.append(cand)
+            except:
+                continue
         return hashtags
          
     def on_status(self, status):        
         self._sampler.tweet_count += 1
-        text = status.text.encode('UTF-8')
+        text = status.text.encode('utf-8')
         hashtags = self.get_hashtags(text)
         len_tweet = len(text)
-
+                
         if self._sampler.push_tweet(len_tweet, hashtags):
             self.print_output()
             
