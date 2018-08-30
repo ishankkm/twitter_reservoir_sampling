@@ -28,22 +28,40 @@ class Routes():
     def page_index(self):
         return render_template("index.html")
     
-    def on_connect(self):        
-        sid = request.sid
-        mw = Middleware(self._socket, emit_at=sid)
-        self._middlewares[sid] = mw
-        
-        with self._thread_lock:
-            if not sid in self._threads:
-                self._threads[sid] = self._socket.start_background_task(target=mw.start_background_job)
+    def on_connect(self): 
+        sid = request.sid       
+        self._socket.on_event(sid, self.manage_events)
         emit(sid, sid)   
         
     def on_disconnect(self):
-        mw = self._middlewares.get(request.sid, None)
-        if mw:
-            mw.stop_backgroung_job()
+        try:
+            mw = self._middlewares.get(request.sid, None)
+            if mw:
+                mw.stop_backgroung_job()
+        except:
+            print('Client Disconnected with exception')
+            
         
-        print('Client Disconnected', self._threads[request.sid].is_alive())
+        print('Client Disconnected', request.sid)
+    
+    def manage_events(self, params):
+        sid = request.sid
+        try:
+            if params["streaming"]:
+                mw = Middleware(self._socket, emit_at=sid, tweet_topics=params['topics'])
+                self._middlewares[sid] = mw
+                
+                with self._thread_lock:
+                    if not sid in self._threads:
+                        self._threads[sid] = self._socket.start_background_task(target=mw.start_background_job)
+            else:
+                mw = self._middlewares.get(request.sid, None)
+                if mw:
+                    mw.stop_backgroung_job()
+                emit(sid, {'streaming': 'false'})
+        except:
+            print('Request Invalid')
+            emit(sid, {'error': 'Request Invalid'})
         
     def list_routes(self):
         result = []
@@ -53,3 +71,15 @@ class Routes():
                 "route": str(rt)
             })
         return jsonify({"routes": result, "total": len(result)})
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

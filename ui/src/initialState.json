@@ -4,11 +4,13 @@
   "tweetsReservoir": [
     {
       "index": 0,
-      "text": "This is a sample tweet!"
+      "status_id": 1035245180809605100,
+      "user_id": 1030534799130284000
     },
     {
       "index": 1,
-      "text": "This is another sample tweet!"
+      "status_id": 1035245204213833700,
+      "user_id": 1027101786975416300
     }
   ],
   "averageLength": 25,
