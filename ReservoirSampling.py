@@ -7,7 +7,7 @@ from __future__ import print_function
 from __future__ import division
 import random
 
-RESERVOIR_SIZE = 100
+RESERVOIR_SIZE = 10
 NUM_TOP_TWEETS = 5
 
 class Reservoir():
@@ -48,14 +48,14 @@ class Reservoir():
     def push_tweet(self, len_tweet, hashtags):
         
         if not self.get_add_decision():
-            return False
+            return -1
         
         # For the initial tweets simply add to reservoir
-        if len(self._reservoir) <= RESERVOIR_SIZE:
+        if len(self._reservoir) < RESERVOIR_SIZE:
             self._reservoir.append(tuple(( len_tweet, hashtags )))
             self.update_hashtags_dict(hashtags)
             self._sum_tweet_length += len_tweet
-            return True
+            return len(self._reservoir) - 1
         
         position = random.randint(0, RESERVOIR_SIZE-1)
         
@@ -66,7 +66,7 @@ class Reservoir():
         self._sum_tweet_length -= self._reservoir[position][0]
         
         self._reservoir[position] = tuple(( len_tweet, hashtags ))
-        return True
+        return position
         
     def get_avg_tweet_length(self):
         return self._sum_tweet_length / len(self._reservoir)

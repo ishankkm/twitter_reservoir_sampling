@@ -20,7 +20,7 @@ const tweetsReservoir = (state=[], action) => {
   switch (action.type) {
     case C.ADD_TWEET:
       return [
-        ...state.filter(t => t.id !== action.payload.id),
+        ...state.filter(t => t.index !== action.payload.index),
         tweet(null, action)
       ]
     case C.CLEAR_RESERVOIR:

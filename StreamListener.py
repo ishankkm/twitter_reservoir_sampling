@@ -40,11 +40,12 @@ class StreamListener(tweepy.StreamListener):
         text = status.text.encode('utf-8')
         position = self._sampler.push_tweet(len(text), self.get_hashtags(status))
         
-        return self.build_output(status, position) if position >= -1 else None
+        return self.build_output(status, position) if position > -1 else None
          
     def on_status(self, status):        
         output = self.handle_status(status)
-        self._socket.emit(self._emit_at, output)
+        if self._switch and output:
+            self._socket.emit(self._emit_at, output)
         return self._switch
         
     def stop_listening(self):
@@ -62,8 +63,8 @@ class StreamListener(tweepy.StreamListener):
             "averageLength": self._sampler.get_avg_tweet_length(),
             "tweet": {
                 "index": position,
-                "status_id": status.id,
-                "user_id": status.user.id
+                "status_id": status.id_str,
+                "user_id": status.user.screen_name
             }
         }        
 
