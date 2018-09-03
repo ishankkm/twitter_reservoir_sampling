@@ -8,12 +8,13 @@ from StreamListener import StreamListener
 
 class Middleware():
     
-    def __init__(self, socketio, emit_at, tweet_topics=['#']):
+    def __init__(self, socketio, emit_at, tweet_topics=['#'], reservoir_size=10):
         self.appJson = json.load(open('app.json'))
         self._socketio = socketio
         self._streamListener = None
         self._tweet_topics = tweet_topics
         self._emit_at = emit_at
+        self._reservoir_size = reservoir_size
         
     def start_background_job(self):
     
@@ -28,7 +29,7 @@ class Middleware():
         api = tweepy.API(auth)
         
         self._streamListener = StreamListener()
-        self._streamListener.initialize(self._socketio, self._emit_at)
+        self._streamListener.initialize(self._socketio, self._emit_at, self._reservoir_size)
         myStream = tweepy.Stream(auth = api.auth, listener=self._streamListener)
         myStream.filter(languages=["en"], track=self._tweet_topics)
         

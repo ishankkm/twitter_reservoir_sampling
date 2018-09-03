@@ -12,19 +12,20 @@ NUM_TOP_TWEETS = 5
 
 class Reservoir():
     
-    def __init__(self):
+    def __init__(self, reservoir_size=10):
         self._reservoir = []        # stores tuples (len_tweet, hashtags) for each tweet
         self._hashtags_count = {}   # Each hashtag's count
         self.tweet_count = 0       # Total tweets since start 
         self._sum_tweet_length = 0  # To calculate the average 
+        self._reservoir_size = reservoir_size
     
     # decide whether to keep the tweet or discard it
     def get_add_decision(self):
         
-        if self.tweet_count <= RESERVOIR_SIZE:
+        if self.tweet_count <= self._reservoir_size:
             return True
         
-        thresold_prob = RESERVOIR_SIZE / self.tweet_count
+        thresold_prob = self._reservoir_size / self.tweet_count
         rand_prob = random.random()
         
         if thresold_prob >= rand_prob:
@@ -51,13 +52,13 @@ class Reservoir():
             return -1
         
         # For the initial tweets simply add to reservoir
-        if len(self._reservoir) < RESERVOIR_SIZE:
+        if len(self._reservoir) < self._reservoir_size:
             self._reservoir.append(tuple(( len_tweet, hashtags )))
             self.update_hashtags_dict(hashtags)
             self._sum_tweet_length += len_tweet
             return len(self._reservoir) - 1
         
-        position = random.randint(0, RESERVOIR_SIZE-1)
+        position = random.randint(0, self._reservoir_size-1)
         
         self.update_hashtags_dict(hashtags)
         self._sum_tweet_length += len_tweet

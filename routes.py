@@ -31,7 +31,7 @@ class Routes():
     def on_connect(self): 
         sid = request.sid       
         self._socket.on_event(sid, self.manage_events)
-        emit(sid, sid)   
+        self.send_status(streaming=False)   
         
     def on_disconnect(self):
         try:
@@ -40,28 +40,43 @@ class Routes():
                 mw.stop_backgroung_job()
         except:
             print('Client Disconnected with exception')
-            
         
         print('Client Disconnected', request.sid)
+        
+    def send_status(self, streaming=False, error=[]):
+        status = {
+            'streaming': streaming,
+            'error': error
+        }
+        emit('status', status)
     
     def manage_events(self, params):
         sid = request.sid
         try:
             if params["streaming"]:
-                mw = Middleware(self._socket, emit_at=sid, tweet_topics=params['topics'])
-                self._middlewares[sid] = mw
                 
                 with self._thread_lock:
                     if not sid in self._threads:
+                        mw = Middleware(self._socket, sid, params['topics'], params['reservoirSize'])
+                        self._middlewares[sid] = mw
                         self._threads[sid] = self._socket.start_background_task(target=mw.start_background_job)
+                        
+                    elif not self._threads[sid].is_alive():
+                        mw = Middleware(self._socket, sid, params['topics'], params['reservoirSize'])
+                        self._middlewares[sid] = mw
+                        self._threads[sid] = self._socket.start_background_task(target=mw.start_background_job)
+                        
+                self.send_status(streaming=True)  
+                     
             else:
                 mw = self._middlewares.get(request.sid, None)
                 if mw:
                     mw.stop_backgroung_job()
-                emit(sid, {'streaming': 'false'})
+                self.send_status(streaming=False)
+                
         except:
             print('Request Invalid')
-            emit(sid, {'error': 'Request Invalid'})
+            self.send_status(streaming=False, error=[{'type': 'Request Invalid'}])
         
     def list_routes(self):
         result = []

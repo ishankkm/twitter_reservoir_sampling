@@ -10,6 +10,11 @@ export const setReservoirSize = size => ({
   payload: size
 })
 
+export const setTweetCount = count => ({
+  type: C.SET_TWEET_COUNT,
+  payload: count
+})
+
 export const addTweet = tweet => ({
   type: C.ADD_TWEET,
   payload: tweet

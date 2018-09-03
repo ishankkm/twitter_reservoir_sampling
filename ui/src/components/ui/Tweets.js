@@ -6,7 +6,7 @@ const Tweets = ({tweetsReservoir}) => {
 
   return (
     <div>
-      {tweetsReservoir.map((tweet) =>
+      {tweetsReservoir.sort((_x, _y) => _x.index < _y.index).map((tweet) =>
           <Tweet tweetId={tweet.status_id} key={tweet.index} {...tweet}/>
       )}
     </div>

@@ -6,16 +6,16 @@ Created on Jul 29, 2018
 from __future__ import print_function
 from __future__ import division
 from ReservoirSampling import Reservoir
-import tweepy, json
+import tweepy, random
 
 class StreamListener(tweepy.StreamListener):
         
-    def initialize(self, socket, emit_at="broadcast"):
-        self._sampler = Reservoir()
+    def initialize(self, socket, emit_at="broadcast", reservoir_size=10):
+        self._sampler = Reservoir(reservoir_size)
         self._socket =  socket
         self._emit_at = str(emit_at)
         self._switch = True
-#         self.count = 5
+        self._reservoir_size = reservoir_size
             
     def get_hashtags_from_text(self, text):
         hashtags = []
@@ -46,6 +46,9 @@ class StreamListener(tweepy.StreamListener):
         output = self.handle_status(status)
         if self._switch and output:
             self._socket.emit(self._emit_at, output)
+        else:
+            if random.randint(1,10) == 1:
+                self._socket.emit('status', { 'tweet_count': self._sampler.tweet_count })
         return self._switch
         
     def stop_listening(self):

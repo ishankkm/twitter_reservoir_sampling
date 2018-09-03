@@ -1,8 +1,8 @@
 {
 	"twitter": {
-		"consumer_token": "XXXXXXXXXXXXXXXXXXXXXXXXX",
-		"consumer_secret": "XXXXXXXXXXXXXXXXXXXXXXXXX",
-		"access_token": "XXXXXXXXXXXXXXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXX",
-		"access_token_secret": "XXXXXXXXXXXXXXXXXXXXXXXXX"
+		"consumer_token": "ceHqSFtRZsPJYJQvPA11SA5uc",
+		"consumer_secret": "umJgpikhKVif6Lg8mG0YTn6aoxCeS83az6SfgJFMCu6sLFVhkG",
+		"access_token": "149836311-a6Yvtuzr5G40spCA3GmAvcNbf7ykyBRYlPMBVO7t",
+		"access_token_secret": "z5xsbYWUQEJrpGPOzhUUNKyPeDf6cxpeBdBLpGaqYrSZ0"
 	}
 }

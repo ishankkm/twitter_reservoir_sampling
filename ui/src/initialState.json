@@ -1,6 +1,7 @@
 {
   "keywords": ["kw1", "kw2"],
   "reservoirSize": 100,
+  "tweetCount": 20,
   "tweetsReservoir": [
     {
       "index": 0,

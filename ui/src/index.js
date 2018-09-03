@@ -23,6 +23,9 @@ var socket = io.connect(`http://${document.domain}:5000`);
 
 socket.on('connect', function() {
     console.log('Websocket connected!');
+    socket.on('status', function(data) {
+      console.log(data)
+    })
 });
 
 

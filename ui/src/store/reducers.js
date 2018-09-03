@@ -11,6 +11,11 @@ const reservoirSize = (state=100, action) =>
     action.payload :
     state
 
+const tweetCount = (state=0, action) =>
+  (action.type === C.SET_TWEET_COUNT) ?
+    action.payload :
+    state
+
 const tweet = (state=null, action) =>
   (action.type === C.ADD_TWEET) ?
     action.payload :
@@ -64,6 +69,7 @@ const appErrors = (state=[], action) => {
 export default combineReducers({
   keywords,
   reservoirSize,
+  tweetCount,
   tweetsReservoir,
   averageLength,
   topHashTags,
