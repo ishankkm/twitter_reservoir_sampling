@@ -11,7 +11,7 @@ import {  setAverageLength,
           setTweetCount,
           clearReservoir,
           clearError,
-          addError } from '../actions'
+          addError } from '../actions/actions'
 
 const App = ({socket,
               setAverageLength,

@@ -1,4 +1,4 @@
-import C from './constants'
+import C from '../constants/constants' 
 
 export const setKeywords = keywords => ({
   type: C.SET_KEYWORDS,

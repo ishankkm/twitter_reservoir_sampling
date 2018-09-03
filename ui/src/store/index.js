@@ -4,7 +4,7 @@ import { createStore, applyMiddleware} from 'redux'
 const logMessages = store => next => action => {
 
   let result
-
+  console.clear()
   console.groupCollapsed(`Dispatching action: ${action.type}`)
   console.log('Tweets', store.getState().tweetsReservoir.length)
   result = next(action)

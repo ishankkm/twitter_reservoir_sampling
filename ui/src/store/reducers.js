@@ -1,4 +1,4 @@
-import C from '../constants'
+import C from '../constants/constants' 
 import {combineReducers} from 'redux'
 
 const keywords = (state=[], action) =>
