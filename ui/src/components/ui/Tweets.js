@@ -1,14 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {Tweet} from 'react-twitter-widgets'
+import './Tweets.css'
 
 const Tweets = ({tweetsReservoir}) => {
 
   return (
-    <div>
-      {tweetsReservoir.sort((_x, _y) => _x.index < _y.index).map((tweet) =>
-          <Tweet tweetId={tweet.status_id} key={tweet.index} {...tweet}/>
-      )}
+    <div className="container">
+      <div className="card-columns">
+          {tweetsReservoir.map((tweet) =>
+            <div className="card border-0" key={tweet.index} >
+              <Tweet tweetId={tweet.status_id} {...tweet}/>
+            </div>
+          )}
+      </div>
     </div>
   )
 }
